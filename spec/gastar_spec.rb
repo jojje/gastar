@@ -39,7 +39,7 @@ describe "AStar implementation" do
     expected = [sun, upp, sth, jon, mal]
     actual   = Space.new(cities).search(sun, mal)
 
-    actual.should eql(expected)
+    expect(actual).to eql(expected)
 
   end
 
@@ -58,10 +58,9 @@ describe "AStar implementation" do
       d => [c],
     }
 
-    Space.new(cities, false).search(a, d).should eql([a,c,d])
-    Space.new(cities, true).search(a, d).should eql([a,b,c,d])
+    expect( Space.new(cities, false).search(a, d) ).to eql([a,c,d])
+    expect( Space.new(cities, true ).search(a, d) ).to eql([a,b,c,d])
 
   end
 
 end
-  
