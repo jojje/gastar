@@ -42,5 +42,26 @@ describe "AStar implementation" do
     actual.should eql(expected)
 
   end
+
+  it "finds the longest path between cities" do
+
+    a = Node.new "C1",  1, 1
+    b = Node.new "C2",  2, 2
+    c = Node.new "C3",  1, 3
+    d = Node.new "C4",  1, 4
+
+
+    cities = {
+      a => [b,c],
+      b => [c],
+      c => [d],
+      d => [c],
+    }
+
+    Space.new(cities, false).search(a, d).should eql([a,c,d])
+    Space.new(cities, true).search(a, d).should eql([a,b,c,d])
+
+  end
+
 end
   

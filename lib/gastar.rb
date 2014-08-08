@@ -68,7 +68,14 @@ class AStar
     openset = Set.new
     closedset = Set.new
     current = start
-    openset_min_max = @maximize_cost ? openset.method(:max_by) : openset.method(:min_by)
+
+    if @maximize_cost  # serves to invert the comparison
+      openset_min_max = openset.method(:max_by)
+      flip = -1
+    else
+      openset_min_max = openset.method(:min_by)
+      flip = 1
+    end
 
     openset.add(current)
     while not openset.empty?
@@ -89,7 +96,7 @@ class AStar
 
         if openset.include? node
           new_g = current.g + current.move_cost(node)
-          if node.g > new_g
+          if (node.g - new_g) * flip > 0
             node.g = new_g
             node.parent = current
           end
