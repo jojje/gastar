@@ -27,50 +27,52 @@ Or install it yourself as:
 
 ## Usage
 
-Example use:
+Example use for finding the shortest route between cities.
 
-    require 'gastar'
-    
-    # Implement the abstract node class.
-    # Note: All attributes below are custom for this implementation and none are
-    # needed nor used by the actual AStar seach algorithm. They're my domain atts.
-    class Node < AStarNode
-      attr_reader :name, :x, :y
-      def initialize(name, x, y)
-        super()
-        @name, @x, @y = name, x, y
-      end
-      def move_cost(other) 1 end
-      def to_s() name end
-    end
-    
-    # Also implement an algorithm for estimating cost of reaching the destination
-    class Space < AStar
-      def heuristic(node, start, goal)
-        Math.sqrt( (goal.x - node.x)**2 + (goal.y - node.y)**2 )
-      end
-    end
-    
-    # Create a graph as an ordinary hashmap, with the key being a node and the
-    # value a list of other nodes that can be reached from the key-node.
-    
-    sun = Node.new "Sundsvall",  9, 10
-    upp = Node.new "Uppsala",    9,  6
-    sth = Node.new "Stockholm", 10,  5
-    jon = Node.new "Jonkoping",  4,  3
-    got = Node.new "Goteborg",   1,  3
-    mal = Node.new "Malmo",      2,  1
-  
-    cities = {
-      sun => [upp],
-      sth => [sun,jon,upp],
-      jon => [sth,got,mal],
-      upp => [sth,sun],
-      mal => [jon],
-      got => [jon]
-    }
-  
-    puts Space.new(cities).search(sun, mal)
+```ruby
+require 'gastar'
+
+# Implement the abstract node class.
+# Note: All attributes below are custom for this implementation and none are
+# needed nor used by the actual AStar seach algorithm. They're my domain atts.
+class Node < AStarNode
+  attr_reader :name, :x, :y
+  def initialize(name, x, y)
+    super()
+    @name, @x, @y = name, x, y
+  end
+  def move_cost(other) 1 end
+  def to_s() name end
+end
+
+# Also implement an algorithm for estimating cost of reaching the destination
+class Space < AStar
+  def heuristic(node, start, goal)
+    Math.sqrt( (goal.x - node.x)**2 + (goal.y - node.y)**2 )
+  end
+end
+
+# Create a graph as an ordinary hashmap, with the key being a node and the
+# value a list of other nodes that can be reached from the key-node.
+
+sun = Node.new "Sundsvall",  9, 10
+upp = Node.new "Uppsala",    9,  6
+sth = Node.new "Stockholm", 10,  5
+jon = Node.new "Jonkoping",  4,  3
+got = Node.new "Goteborg",   1,  3
+mal = Node.new "Malmo",      2,  1
+
+cities = {
+  sun => [upp],
+  sth => [sun,jon,upp],
+  jon => [sth,got,mal],
+  upp => [sth,sun],
+  mal => [jon],
+  got => [jon]
+}
+
+puts Space.new(cities).search(sun, mal)
+```
 
 ## Contributing
 
